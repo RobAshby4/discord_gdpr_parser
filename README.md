@@ -7,3 +7,6 @@ required:
 required packages:
 - `adm-zip`
 - `minimist`
+
+
+`usage: node parser.js {path_to_twitter_data.zip}`
