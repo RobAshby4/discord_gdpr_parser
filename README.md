@@ -1,5 +1,5 @@
 # discord_gdpr_parser
-Parse and generate relevant data from your twitter gdpr download
+Parse and generate relevant data from your discord gdpr download
 
 required:
 - `nodejs`
