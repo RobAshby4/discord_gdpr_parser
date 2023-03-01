@@ -5,9 +5,18 @@ required:
 - `nodejs`
 - `node-typescript`
 
+```
+// for ubuntu systems
+$ sudo apt install nodejs node-typescript
+```
+
 required npm packages (install with npm):
 - `adm-zip`
 - `minimist`
+
+```
+$ npm install adm-zip minimist
+```
 
 In order to run first you must compile the TS file into JS
 
