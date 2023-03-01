@@ -18,5 +18,5 @@ $ tsc parser.ts --out parser_out.js
 Then you can run the compiled javascript file with node as so
 
 ```
-$ node parser.js {path_to_discord_data.zip}
+$ node parser_out.js {path_to_discord_data.zip}
 ```
