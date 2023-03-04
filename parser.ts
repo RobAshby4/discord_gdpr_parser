@@ -87,6 +87,24 @@ async function getEventData(): Promise<Events> {
                 if (ev.os.indexOf(repData.os) == -1 && repData.os != undefined) {
                     ev.os.push(repData.os);
                 }
+                if (repData.os == 'Linux') {
+                    if (ev.distro.indexOf(repData.distro) == -1 && repData.distro != undefined) {
+                        ev.distro.push(repData.distro);
+                    }
+                    if (ev.windowManager.indexOf(repData.window_manager) == -1 && repData.window_manager != undefined) {
+                        ev.windowManager.push(repData.window_manager);
+                    }
+                }
+                if (ev.city.indexOf(repData.city) == -1 && repData.city != undefined) {
+                    ev.city.push(repData.city);
+                }
+                if (ev.isp.indexOf(repData.isp) == -1 && repData.isp != undefined) {
+                    ev.isp.push(repData.isp);
+                }
+                if (ev.ip.indexOf(repData.ip) == -1 && repData.ip != undefined) {
+                    ev.ip.push(repData.ip);
+                }
+
             });
             report.on('close', () => resolve(ev));
         });
@@ -116,6 +134,38 @@ function displayUserInfo(usr: User): void {
     console.log('| Discord keeps track of applications you have open\n| to display them as activity. Total time per app is kept\n| between sessions.');
 }
 
+function eventPrinter(elist: string[], perline: number, padding: number) {
+    let spacing = 1;
+    elist.forEach(i => {
+        process.stdout.write(i.padEnd(padding) );
+        if (spacing % perline == 0) {
+            process.stdout.write('\n');
+        }
+        spacing++;
+    });
+    process.stdout.write('\n');
+}
+
+function displayEventsInfo(ev: Events) {
+    console.log('\n\n----------------------');
+    console.log('|Important Event Data|');
+    console.log('----------------------');
+    console.log('\n\nCities that discord thinks you have connected from: ');
+    eventPrinter(ev.city, 3, 25);
+    console.log('\n\nIP adresses that you have used when connecting to discord: ');
+    eventPrinter(ev.ip, 4, 15);
+    console.log('\n\nThe ISP that you used to connect: ');
+    eventPrinter(ev.isp, 2, 40);
+    console.log('\n\nOperating systems that you have used with discord: ');
+    eventPrinter(ev.os, 3, 25);
+    if (ev.distro.length > 0) {
+        console.log('\n\nLinux distros that you have used with discord: ');
+        eventPrinter(ev.distro, 2, 40);
+        console.log('\n\nLinux window managers you have used with discord: ');
+        eventPrinter(ev.windowManager, 3, 25);
+    }
+}
+
 async function main() {
     if (argv['h'] || process.argv.length < 3) {
         console.log(help);
@@ -132,10 +182,10 @@ async function main() {
 
     // extract to temp folder and parse
     zip.extractAllTo('./tmp/');
-    // const userData: User = getUserData();
-    // displayUserInfo(userData);
+    const userData: User = getUserData();
+    displayUserInfo(userData);
     const ev = await getEventData();
-    console.log(ev.os);
+    displayEventsInfo(ev);
     cleanTmp();
 }
 
